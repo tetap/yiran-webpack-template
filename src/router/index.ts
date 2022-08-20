@@ -1,12 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'home',
-    component: () => import(/* webpackChunkName: "home" */ '../pages/HomeView.vue')
-  }
-]
+const routes: Array<RouteRecordRaw> = []
+const routeRequire = require.context('./libs', true, /\.ts$/)
+routeRequire.keys().forEach((route) => {
+  routes.push(...routeRequire(route).default)
+})
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
